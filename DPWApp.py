@@ -7,7 +7,21 @@ Created on Sun Jul 16 23:51:51 2023
 import numpy as np
 import pickle
 import streamlit as st
-loaded_model = pickle.load(open('trained_model.sav','rb'))
+import gdown
+
+@st.cache
+def load_model():
+    output = "trained_model.sav"
+
+    if not os.path.isfile(output):
+        url = "https://drive.google.com/file/d/1FecF-8rSjaEDMDBvAUR75_Ys3Cas0m-R/view?usp=sharing"
+        gdown.download(url, output)
+        
+    loaded_model = pickle.load(open(output,'rb'))
+    
+    return loaded_model
+
+loaded_model = load_model()
 
 #creating function
 def diabetes_prediction(input_data):
